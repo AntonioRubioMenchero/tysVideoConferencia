@@ -4,9 +4,11 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
 	function ChatViewModel() {
 		var self = this;
 		
+		//var nuevo = "";
 		this.user = app.user;
 		
 		self.recipient = ko.observable();
+		
 
 		self.chat = ko.observable(new Chat(ko));
 		
@@ -29,20 +31,25 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
 			accUtils.announce('Chat page loaded.');
 			document.title = "Chat";
 
-			getUsuariosConectados();
+			
 			getUsuarios();
+			getUsuariosConectados();
 		};
 
 		function getUsuariosConectados() {
+			
 			var data = {	
 				url : "users/getUsuariosConectados",
 				type : "get",
 				contentType : 'application/json',
 				success : function(response) {
 					for (var i=0; i<response.length; i++) {
-						var userName = response[i].name;
-						var picture = response[i].picture;
-						self.chat().addUsuario(userName, picture);
+						var user = { 
+							userName : response[i], 
+							picture : ko.observable("")
+						};
+						getPicture(user);
+						self.chat().addUsuarioAsync(user);
 					}
 				},
 				error : function(response) {
@@ -50,6 +57,30 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
 				}
 			};
 			$.ajax(data);
+		}
+		
+		function getPicture(user) {
+			let nuevo = "";
+			var info ={ name : user.userName}
+			var data = {
+					
+					url : "users/getPicture",
+					data : JSON.stringify(info),
+					type : "post",
+					contentType : 'application/json',
+					success : function(response) {
+						nuevo=response.picture;
+						user.picture(response.picture)
+					},
+					error : function(response) {
+						self.error(response.responseJSON.error);
+					}
+				};
+				$.ajax(data);
+				
+			
+				
+			
 		}
 		
 		function getUsuarios() {

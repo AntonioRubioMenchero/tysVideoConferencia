@@ -2,6 +2,7 @@ package edu.uclm.esi.videochat;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -187,15 +188,24 @@ public class LlamadaAceptacionTest {
 				e.printStackTrace();
 			}
 		    
-		   
+		    Optional<User> pepeConfirm= userRepo.findByName("Pepe");
+			Optional<User> anaConfirm= userRepo.findByName("Ana");
+			Optional<User> lucasConfirm= userRepo.findByName("Lucas");
 		    
-//		    chrome.get("https://localhost:7500/users/confirmarCuenta?tokenId=" + tokenIdChrome.getId() );
-//		    firefox.get("https://localhost:7500/users/confirmarCuenta?tokenId=" + tokenIdFirefox.getId() );
-//		    edge.get("https://localhost:7500/users/confirmarCuenta?tokenId=" + tokenIdEdge.getId() );
+		      try {
+			Thread.sleep(2000);
+		     } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		     }
 		    
-		    assertThat(chrome.switchTo().alert().getText(), is("Registrado correctamente"));
+		    
 		    assertThat(firefox.switchTo().alert().getText(), is("Registrado correctamente"));
+		    assertThat(anaConfirm.isPresent(), is(true));
 		    assertThat(edge.switchTo().alert().getText(), is("Registrado correctamente"));
+		    assertThat(lucasConfirm.isPresent(), is(true));
+		    assertThat(chrome.switchTo().alert().getText(), is("Registrado correctamente"));
+		    assertThat(pepeConfirm.isPresent(), is(true));
 		    //assertThat(chrome.findElement(By.cssSelector(".oj-hybrid-padding > h1")).getText(), is("Login"));
 		  }
 		  

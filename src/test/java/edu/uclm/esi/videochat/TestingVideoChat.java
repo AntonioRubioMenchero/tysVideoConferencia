@@ -10,8 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -23,8 +25,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,6 +37,8 @@ import edu.uclm.esi.videochat.springdao.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class TestingVideoChat {
 		 private WebDriver chrome;
 		  private WebDriver firefox;
@@ -81,7 +86,7 @@ public class TestingVideoChat {
 		  
 		  @Test
 		  @Order(1)
-		  public void registroTres() {
+		  public void testAregistros() {
 			  
 			  Optional<User> pepe= userRepo.findByName("Pepe");
 			  Optional<User> ana= userRepo.findByName("Ana");
@@ -104,7 +109,7 @@ public class TestingVideoChat {
 		    
 		    
 		    try {
-		  		Thread.sleep(2000);
+		  		Thread.sleep(3000);
 		  	} catch (InterruptedException e) {
 		  		// TODO Auto-generated catch block
 		  		e.printStackTrace();
@@ -225,12 +230,32 @@ public class TestingVideoChat {
 		    
 		    
 		    assertThat(edge.switchTo().alert().getText(), is("Registrado correctamente"));
+		    
+		    Optional<User> pepeConfirm= userRepo.findByName("Pepe");
+			Optional<User> anaConfirm= userRepo.findByName("Ana");
+			Optional<User> lucasConfirm= userRepo.findByName("Lucas");
+		    
+		      try {
+			Thread.sleep(2000);
+		     } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		     }
+		    
+		    
+		    
+		    assertThat(anaConfirm.isPresent(), is(true));
+		    
+		    assertThat(lucasConfirm.isPresent(), is(true));
+		    
+		    assertThat(pepeConfirm.isPresent(), is(true));
 		    //assertThat(chrome.findElement(By.cssSelector(".oj-hybrid-padding > h1")).getText(), is("Login"));
 		  }
+		   
 		  
 		  @Test
 		  @Order(2)
-		  public void logins() {
+		  public void testBlogins() {
 			chrome.get("https://localhost:7500/");
 			  
 			 try {
@@ -317,7 +342,7 @@ public class TestingVideoChat {
 		  }
 		  @Test
 		  @Order(3)
-		  public void LlamadaRechazo() {
+		  public void testCrechazoLlamada() {
 			  
 			  hacerLogin(chrome, "Pepe", "1234");
 			  hacerLogin(firefox, "Ana","1234");
@@ -345,9 +370,10 @@ public class TestingVideoChat {
 			  	}
 			  assertThat(chrome.switchTo().alert().getText(), is("Se ha rechazado la llamada"));
 		  }
+		  
 		  @Test
-		  @Order(4)
-		  public void LlamadaAceptacion() {
+		  @Order(10)
+		  public void testDaceptacionLlamada() {
 			  
 			 hacerLogin(chrome, "Ana", "1234");
 			 hacerLogin(firefox, "Lucas", "1234");

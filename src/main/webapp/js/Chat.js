@@ -7,6 +7,9 @@ class Chat {
 		this.error = ko.observable();
 		
 		this.usuarios = ko.observableArray([]);
+		
+		
+		
 		this.mensajesRecibidos = ko.observableArray([]);
 		this.conversaciones = ko.observableArray([]);
 		
@@ -126,6 +129,9 @@ class Chat {
 	
 	addUsuario(userName, picture) {
 		this.usuarios.push(new Usuario(userName, picture));
+	}
+	addUsuarioAsync(user){
+		this.usuarios.push(new Usuario(user.userName, user.picture));
 	}
 	addUsuarioRegistrado(userName, picture) {
 		this.listadoUsuarios.push(new Usuario(userName, picture));

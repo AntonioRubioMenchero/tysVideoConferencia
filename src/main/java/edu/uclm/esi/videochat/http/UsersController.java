@@ -11,7 +11,9 @@ import javax.ws.rs.PathParam;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -154,7 +157,7 @@ public class UsersController {
 	}
 	
 	@GetMapping(value = "/getUsuariosConectados", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<User> getUsuariosConectados() {
+	public List<String> getUsuariosConectados() {
 		return Manager.get().getUsuariosConectados();
 	}
 	
@@ -162,4 +165,18 @@ public class UsersController {
 	public List<User> getUsuarios() {
 		return Manager.get().getUsuarios();
 	}
+	
+	@PostMapping(value="/getPicture", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String  getPicture(@RequestBody Map<String, Object> datos) {
+		JSONObject jso = new JSONObject(datos);
+		
+		String name = jso.getString("name");
+		
+		
+		JSONObject jsoResponse = new JSONObject();
+		jsoResponse.put("picture", Manager.get().getPicture(name));
+		return jsoResponse.toString();
+		
+	}
+	
 }
