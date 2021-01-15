@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Message {
+public class Message implements Comparable<Message> {
 	@Id
 	private String id;
 	private String sender;
@@ -60,6 +60,19 @@ public class Message {
 	public void setDate(long date) {
 		this.date = date;
 	}
+
+
+
+	@Override
+	public int compareTo(Message o) {
+		if(date < o.getDate())
+			return -1;
+		if(date > o.getDate())
+			return 1;
+		return 0;
+	}
+	
+	
 
 	
 }

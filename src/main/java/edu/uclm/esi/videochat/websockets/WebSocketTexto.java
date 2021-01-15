@@ -2,6 +2,8 @@ package edu.uclm.esi.videochat.websockets;
 
 
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -12,6 +14,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.JsonObject;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import edu.uclm.esi.videochat.model.Manager;
 import edu.uclm.esi.videochat.model.Message;
@@ -82,6 +85,7 @@ public class WebSocketTexto extends WebSocketVideoChat {
 		} else if (type.equals("HISTORIAL")) {
 			String conversador = jso.getString("conversador");
 			List<Message> l = getHistorial(enviador, conversador);
+			Collections.sort(l);
 			String conversacion = enviador + "-" + conversador; 
 			
 			JSONObject historialjson = new JSONObject();
