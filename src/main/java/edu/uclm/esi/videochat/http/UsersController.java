@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 import edu.uclm.esi.videochat.model.Email;
@@ -80,6 +80,14 @@ public class UsersController {
 		user.setName(name);
 		user.setPwd(pwd1);
 		user.setConfirmationDate(0);
+		
+		Vector<String> mail = new Vector<String>();
+		mail = userRepo.getEmail();
+		for (int i = 0; i < mail.size(); i++) {
+			if (user.getEmail().equals(mail.get(i)))
+				throw new Exception("Error: Este correo ya se ha registrado");
+		}
+		
 		
 		String picture = jso.optString("picture");
 		if(picture.equals(""))

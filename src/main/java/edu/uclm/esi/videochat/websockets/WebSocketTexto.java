@@ -61,6 +61,7 @@ public class WebSocketTexto extends WebSocketVideoChat {
 			Message mensaje = new Message();
 			mensaje.setMessage(jso.getString("message"));
 			mensaje.setSender(enviador);
+			mensaje.setRecipient("all");
 			mensaje.setDate(System.currentTimeMillis());
 			guardarMensaje(mensaje);
 		} else if (type.equals("PARTICULAR")) {
@@ -116,8 +117,23 @@ public class WebSocketTexto extends WebSocketVideoChat {
 	}
 	
 	private List<Message> getHistorial(String usuarioA,String usuarioB){
-		List<Message> listado = Manager.get().getMessageRepo().findConversacion(usuarioA, usuarioB); 
-		return listado;	
+		if (!usuarioA.equals(usuarioB)) {
+			if (!usuarioB.equals("All")) {
+				List<Message> listado = Manager.get().getMessageRepo().findConversacion(usuarioA, usuarioB);
+				return listado;
+			}else {
+				List<Message> listado = Manager.get().getMessageRepo().findConversacionAll();
+				return listado;
+			}
+			 
+			
+		}else {
+			usuarioB="null";
+			List<Message> listado = Manager.get().getMessageRepo().findConversacionGlobal(usuarioA);
+			return listado;
+		}
+		
+		
 	}
 
 	@Override

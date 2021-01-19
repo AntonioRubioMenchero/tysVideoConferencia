@@ -64,9 +64,6 @@ public class TestingVideoChat {
 			
 			firefox = new FirefoxDriver(firefoxOptions);
 			
-			
-			
-			
 			edge = new EdgeDriver();
 			
 			ChromeOptions options = new ChromeOptions();

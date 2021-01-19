@@ -2,6 +2,7 @@ package edu.uclm.esi.videochat.springdao;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Vector;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -20,6 +21,9 @@ public interface UserRepository extends CrudRepository <User, String> {
 		
 	@Query(value = "Select * from user ", nativeQuery=true)
 	public List<User> SelectAll();
+	
+	@Query(value = "Select email from user ", nativeQuery=true)
+	public Vector<String> getEmail();
 	
 	public User findByNameAndPwd(String name, String pwd);
 	public Optional<User> findByName(String name);

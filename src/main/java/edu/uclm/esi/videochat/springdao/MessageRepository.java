@@ -16,5 +16,11 @@ public interface MessageRepository extends CrudRepository <Message, String> {
 	@Query(value = "SELECT * FROM message where (sender=:sender or recipient=:sender) and (sender=:recipient or recipient=:recipient)", nativeQuery = true)
 	public List<Message> findConversacion(@Param("sender") String sender,@Param("recipient") String recipient);
 	
+	@Query(value = "SELECT * FROM message where sender=:sender and recipient='all'", nativeQuery = true)
+	public List<Message> findConversacionGlobal(@Param("sender") String sender);
+	
+	@Query(value = "SELECT * FROM message where recipient='all'", nativeQuery = true)
+	public List<Message> findConversacionAll();
+	
 
 }

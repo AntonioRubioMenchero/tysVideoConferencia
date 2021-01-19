@@ -51,6 +51,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
 						getPicture(user);
 						self.chat().addUsuarioAsync(user);
 					}
+					
 				},
 				error : function(response) {
 					self.error(response.responseJSON.error);
@@ -94,6 +95,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
 						var picture = response[i].picture;
 						self.chat().addUsuarioRegistrado(userName, picture);
 					}
+					self.chat().addUsuarioRegistrado("All",null)
 				},
 				error : function(response) {
 					self.error(response.responseJSON.error);
@@ -124,6 +126,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
 		
 		self.disconnected = function() {
 			self.chat().close();
+			self.videochat().close();
 		};
 
 		self.transitionCompleted = function() {

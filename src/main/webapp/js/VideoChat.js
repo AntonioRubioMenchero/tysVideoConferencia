@@ -23,13 +23,16 @@ class VideoChat {
 		this.ws.onerror = function() {
 			self.estado("");
 			self.error("Desconectado del servidor de signaling");
+			
 			self.addMensaje("Desconectado del servidor de signaling", "red");
 		}
 		
 		this.ws.onclose = function() {
 			self.estado("");
 			self.error("Desconectado del servidor de signaling");
+			
 			self.addMensaje("Desconectado del servidor de signaling", "red");
+			
 		}
 
 		this.ws.onmessage = function(event) {
@@ -62,6 +65,9 @@ class VideoChat {
 				
 			}
 		}
+	}
+	close() {
+		this.ws.close();
 	}
 	
 	anunciarLlamada(remitente, sessionDescription) {

@@ -89,7 +89,7 @@ public class WebSocketSignaling extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		WrapperSession wrapper = this.sessionsByUserName.remove(session.getId());
-		Manager.get().remove(wrapper.getUser());
+		//Manager.get().remove(wrapper.getUser());
 	}
 	
 	@Override
